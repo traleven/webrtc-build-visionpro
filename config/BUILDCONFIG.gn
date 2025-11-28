@@ -171,6 +171,19 @@ declare_args() {
       is_debug && current_os != "ios" && current_os != "watchos"
 }
 
+declare_args() {
+  # vision pro test builds. use in combination with ios 
+  xros = false
+  #overrides the -target compiler flag for xros support
+  #arm64-apple-xros1.0 for device and arm64-apple-xros1.0-simulator
+  ios_target_override = ""
+  #This forces a specific sdk for use with the -isysroot compiler flag
+  #"/Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator.sdk"
+  #"/Applications/Xcode.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS1.0.sdk"
+  ios_sdk_override = ""
+}
+
+
 assert(!(is_debug && is_official_build), "Can't do official debug builds")
 assert(!(current_os == "ios" && is_component_build),
        "Can't use component build on iOS")

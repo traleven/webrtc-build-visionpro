@@ -69,7 +69,17 @@ ios_use_xcode_symlinks =
 if (ios_sdk_path == "") {
   # Compute default target.
   if (target_platform == "iphoneos") {
-    if (target_environment == "simulator") {
+    if (xros) {
+      if (target_environment == "simulator") {
+        ios_sdk_name = "xrsimulator"
+        ios_sdk_platform = "XRSimulator"
+      } else if (target_environment == "device") {
+        ios_sdk_name = "xros"
+        ios_sdk_platform = "XROS"
+      } else {
+        assert(false, "unsupported target_environment=$target_environment")
+      }
+    } else if (target_environment == "simulator") {
       ios_sdk_name = "iphonesimulator"
       ios_sdk_platform = "iPhoneSimulator"
     } else if (target_environment == "device") {

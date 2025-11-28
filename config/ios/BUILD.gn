@@ -53,6 +53,15 @@ config("compiler") {
     "$triplet_cpu-$triplet_os$ios_deployment_target$triplet_environment",
   ]
 
+  if(ios_target_override != "")
+  {
+    common_flags = []
+    common_flags = [
+        "-target",
+        "$ios_target_override",
+      ]
+  }
+
   # This is here so that all files get recompiled after an Xcode update.
   # (defines are passed via the command line, and build system rebuild things
   # when their commandline changes). Nothing should ever read this define.
@@ -111,6 +120,9 @@ config("runtime_library") {
   _sdk_root = ios_sdk_path
   if (ios_use_xcode_symlinks) {
     _sdk_root = rebase_path(ios_sdk_path, root_build_dir)
+  }
+  if(ios_sdk_override != "") {
+    _sdk_root=ios_sdk_override
   }
 
   common_flags = [
